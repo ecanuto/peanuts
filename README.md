@@ -1,0 +1,2 @@
+# peanuts
+Peanuts Bash Library
