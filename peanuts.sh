@@ -28,7 +28,7 @@ export DEBIAN_FRONTEND=noninteractive
 
 ### System constants ###########################################################
 
-ESSENTIAL_PACKAGES=(sudo openssh-server ufw nano)
+ESSENTIAL_PACKAGES=(sudo openssh-server ufw nano lsb-release)
 SSHD_CONFIG="/etc/ssh/sshd_config"
 
 ### Utilities ##################################################################
@@ -120,7 +120,7 @@ function system_backup_file() {
 function system_sources() {
 	mirr="${1:-us}"
 	comp="${2:-main contrib non-free}"
-	name=$(dpkg --status tzdata | grep Provides | cut -f2 -d '-')
+	name=$(lsb_release -sc)
 	file="/etc/apt/sources.list"
 
     system_backup_file $file
