@@ -146,6 +146,17 @@ function system_install() {
 	apt-get install --yes $@
 }
 
+function system_goodstuff() {
+	if [ ! $(which toilet) ] || [ ! $(which figlet) ]; then
+		system_install toilet figlet
+	fi
+
+	info "Setting message of the day"
+	system_backup_file /etc/motd
+	toilet -f standard --metal "`hostname -s`"   > /etc/motd
+	toilet -f term --metal "$(lsb_release -sd)" >> /etc/motd
+}
+
 ### MySQL ######################################################################
 
 function mysql_secure_settings() {
