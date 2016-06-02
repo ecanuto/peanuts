@@ -116,6 +116,25 @@ function system_backup_file() {
 	fi
 }
 
+function system_sources() {
+	mirr="${1:-us}"
+	comp="${2:-main contrib non-free}"
+	name=$(dpkg --status tzdata | grep Provides | cut -f2 -d '-')
+	file="/etc/apt/sources.list"
+
+    system_backup_file $file
+	if  [ ! -s /dev/stdin ]; then
+		cat > $file <<-EOF
+			deb http://ftp.$mirr.debian.org/debian $name main contrib non-free
+			deb http://ftp.$mirr.debian.org/debian/ $name-updates main contrib non-free
+			deb http://ftp.$mirr.debian.org/debian $name-backports main contrib non-free
+			deb http://security.debian.org/ $name/updates main contrib non-free
+		EOF
+	else
+		cat /dev/stdin > $file
+	fi
+}
+
 function system_upgrade() {
 	apt-get update
 	apt-get upgrade --yes
