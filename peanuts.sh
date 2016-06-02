@@ -90,7 +90,7 @@ function system_set_locale() {
 	locale-gen
 }
 
-function system_set_hostname {
+function system_set_hostname() {
     HOSTNAME="$1"
     echo "$HOSTNAME" > /etc/hostname
     hostname -F /etc/hostname
@@ -116,7 +116,7 @@ function system_backup_file() {
 	fi
 }
 
-function system_upgrade {
+function system_upgrade() {
 	apt-get update
 	apt-get upgrade --yes
 	apt-get autoremove --yes --purge
