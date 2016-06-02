@@ -136,6 +136,10 @@ function system_sources() {
 	fi
 }
 
+function system_update() {
+	apt-get update
+}
+
 function system_upgrade() {
 	apt-get update
 	apt-get upgrade --yes
