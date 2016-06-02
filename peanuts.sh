@@ -86,6 +86,7 @@ function system_set_timezone() {
 
 function system_set_locale() {
 	echo "LANG=$1" > /etc/default/locale
+	sed -i "s/# *$1/$1/" /etc/locale.gen
 	sed -i "s/# *$2/$2/" /etc/locale.gen
 	locale-gen
 }
