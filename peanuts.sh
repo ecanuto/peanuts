@@ -120,7 +120,7 @@ function system_backup_file() {
 function system_sources() {
 	mirr="${1:-us}"
 	comp="${2:-main contrib non-free}"
-	name=$(lsb_release -sc)
+	name=$(dpkg --status tzdata | grep Provides | cut -f2 -d '-')
 	file="/etc/apt/sources.list"
 
     system_backup_file $file
