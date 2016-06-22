@@ -162,6 +162,35 @@ function system_goodstuff() {
 	toilet -f term --metal "$(lsb_release -sd)" >> /etc/motd
 }
 
+function system_add_user() {
+	USERNAME="$1"
+	USERHOME="/home/$USERNAME"
+	USGROUPS="$2"
+	if [ ! -d "$USERHOME" ]; then
+		adduser --disabled-password --gecos "" $USERNAME
+		usermod -a -G adm,sudo,www-data $USERNAME
+		usermod -p "" $USERNAME
+		chage -d 0 $USERNAME
+	fi
+}
+
+function system_add_user_group() {
+	usermod -G $2 $1
+}
+
+function system_add_user_key() {
+	USERNAME="$1"
+	USERHOME="/home/$USERNAME"
+	USERKEYS="$2"
+	mkdir -p $USERHOME/.ssh
+	cat > $USERHOME/.ssh/authorized_keys <<-EOF
+		$USERKEYS
+	EOF
+	chmod 700 $USERHOME/.ssh
+	chmod 600 $USERHOME/.ssh/authorized_keys
+	chown -R $USERNAME:$USERNAME $USERHOME/.ssh
+}
+
 ### MySQL ######################################################################
 
 function mysql_secure_settings() {
