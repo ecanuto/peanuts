@@ -168,7 +168,7 @@ function system_add_user() {
 	USGROUPS="$2"
 	if [ ! -d "$USERHOME" ]; then
 		adduser --disabled-password --gecos "" $USERNAME
-		usermod -a -G adm,sudo,www-data $USERNAME
+		usermod -a -G $2 $USERNAME
 		usermod -p "" $USERNAME
 		chage -d 0 $USERNAME
 	fi
