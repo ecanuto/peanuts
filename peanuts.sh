@@ -55,7 +55,7 @@ function fset() {
 function fget() {
 	file=$1
 	argc=$2
-	sed -n -e "s|^ *$argc[ =]*\(.*\) *|\1|p" $file
+	sed -n -e "s|^ *$argc[ =]\+\(.*\) *|\1|p" $file
 }
 
 function check_for_root_privileges() {
