@@ -184,8 +184,12 @@ function system_add_user_group() {
 
 function system_add_user_key() {
 	USERNAME="$1"
-	USERHOME="/home/$USERNAME"
 	USERKEYS="$2"
+	if [ $1 = "root" ]; then
+		USERHOME="/$USERNAME"
+	else
+		USERHOME="/home/$USERNAME"
+	fi
 	mkdir -p $USERHOME/.ssh
 	cat > $USERHOME/.ssh/authorized_keys <<-EOF
 		$USERKEYS
