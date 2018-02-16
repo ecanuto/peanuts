@@ -87,7 +87,7 @@ function urlretrieve() {
 ### System #####################################################################
 
 function system_set_timezone() {
-	echo "$1" > /etc/timezone
+	ln -sf "/usr/share/zoneinfo/$1" /etc/localtime
 	dpkg-reconfigure --frontend noninteractive tzdata
 }
 
