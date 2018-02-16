@@ -244,6 +244,9 @@ function common_system_settings() {
 	fset $SSHD_CONFIG "PasswordAuthentication no"
 	fset $SSHD_CONFIG "UseDNS no" ### NOT IMPLEMENTED (fset add line) ##
 	systemctl restart ssh
+
+	info "Setting some nice stuff like toilet motd"
+	system_goodstuff
 }
 
 ### MySQL ######################################################################
