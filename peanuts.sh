@@ -212,6 +212,12 @@ function mysql_secure_settings() {
 	mysql -u root -e "FLUSH PRIVILEGES"
 }
 
+function mysql_common_settings() {
+	mysql_secure_settings
+	mysql -u root -e "UPDATE mysql.user SET plugin='mysql_native_password' WHERE User='root'"
+	mysql -u root -e "FLUSH PRIVILEGES"
+}
+
 function mysql_create_database() {
 	mysql -u root -e "CREATE DATABASE IF NOT EXISTS $1 CHARACTER SET utf8"
 	if [ ! -z "$2" ]; then
