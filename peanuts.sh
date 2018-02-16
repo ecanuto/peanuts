@@ -204,6 +204,49 @@ function system_add_user_key() {
 	chown -R $USERNAME:$USERNAME $USERHOME/.ssh
 }
 
+function common_bootstrap() {
+	common_system_settings "$@"
+}
+
+function common_system_settings() {
+	while [ $# -gt 0 ]; do
+		if [[ $1 == "-"* ]]; then
+			v="${1/-/}"
+			declare $v="$2"
+		fi
+		shift
+	done
+
+	check_for_root_privileges
+	if [ ! -z "$d" ]; then
+		check_for_system "$d"
+	fi
+
+	info "System upgrade"
+	system_sources
+	system_upgrade
+
+	info "Installing common packages"
+	system_install \
+		sudo openssh-server ufw nano lsb-release bash-completion \
+		command-not-found rsync htop mc wget curl git vnstat locales
+
+	info "Locale settings"
+	system_set_locale   "en_US.UTF-8" "$l"
+	if [ ! -z "$t" ]; then
+		system_set_timezone "$t"
+	fi
+
+	info "SSH settings"
+	if [ ! -z "$s" ]; then
+		fset $SSHD_CONFIG "Port $s"
+	fi
+	fset $SSHD_CONFIG "X11Forwarding no"
+	fset $SSHD_CONFIG "PasswordAuthentication no"
+	fset $SSHD_CONFIG "UseDNS no" ### NOT IMPLEMENTED (fset add line) ##
+	systemctl restart ssh
+}
+
 ### MySQL ######################################################################
 
 function mysql_secure_settings() {
