@@ -73,6 +73,11 @@ function check_for_system() {
 	fi
 }
 
+function common_system_checks() {
+	check_for_root_privileges
+	check_for_system "$1"
+}
+
 function urlretrieve() {
 	rurl=$1; file=$2; attr=$3
 	wget -O $file $rurl
