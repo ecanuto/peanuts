@@ -49,7 +49,11 @@ function fset() {
 	if [ ! -f "$file.orig" ]; then
 	    cp "$file" "$file.orig"
 	fi
-	sed -i -e "s|^[ \t#;]*$name[ ]\+$sepc.\+|$argc|" $file
+	if grep --quiet "^[#[:space:];]*$name\b" $file; then
+		sed -i -e "s|^[ \t#;]*$name[ ]\+$sepc.\+|$argc|" $file
+	else
+		echo "$argc" >> $file
+	fi
 }
 
 function fget() {
@@ -242,7 +246,7 @@ function common_system_settings() {
 	fi
 	fset $SSHD_CONFIG "X11Forwarding no"
 	fset $SSHD_CONFIG "PasswordAuthentication no"
-	fset $SSHD_CONFIG "UseDNS no" ### NOT IMPLEMENTED (fset add line) ##
+	fset $SSHD_CONFIG "UseDNS no"
 	systemctl restart ssh
 
 	info "Setting some nice stuff like toilet motd"
