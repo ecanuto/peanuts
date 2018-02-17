@@ -280,3 +280,19 @@ function mysql_create_database() {
 		mysql -u root -e "FLUSH PRIVILEGES"
 	fi
 }
+
+### PostgreSQL #################################################################
+
+function pgsql_create_user() {
+	while [ $# -gt 0 ]; do
+		param=""
+		if [[ $1 == "-s"* ]]; then
+			param=$1
+			shift
+		fi
+		if ! sudo -i -u postgres psql -t -c "\du $1" | grep -qw .; then
+			sudo -i -u postgres createuser -U postgres $param $1
+		fi
+		shift
+	done
+}
