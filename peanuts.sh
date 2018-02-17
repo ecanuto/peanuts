@@ -296,3 +296,13 @@ function pgsql_create_user() {
 		shift
 	done
 }
+
+### Nginx ######################################################################
+
+function nginx_common_settings() {
+	fset /etc/nginx/nginx.conf "\tserver_names_hash_bucket_size 128;"
+	fset /etc/nginx/nginx.conf "\tworker_connections 2048;"
+	fset /etc/nginx/nginx.conf "\tserver_tokens off;"
+	echo "<center>$HOSTNAME</center>" > /var/www/html/index.html
+	systemctl restart nginx
+}
