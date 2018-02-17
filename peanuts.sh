@@ -306,3 +306,22 @@ function nginx_common_settings() {
 	echo "<center>$HOSTNAME</center>" > /var/www/html/index.html
 	systemctl restart nginx
 }
+
+### PHP-FPM ####################################################################
+
+function phpfpm_common_settings() {
+	phpconf=`ls /etc/php/*/fpm/php.ini`
+	fset $phpconf "upload_max_filesize = 32M"
+	fset $phpconf "post_max_size = 32M"
+	fset $phpconf "short_open_tag = On"
+	fset $phpconf "date.timezone = $(cat /etc/timezone)"
+
+	wwwconf=`ls /etc/php/*/fpm/pool.d/www.conf`
+	fset $wwwconf "pm.status_path = /status"
+	fset $wwwconf "pm.max_children = 12"
+	fset $wwwconf "pm.max_spare_servers = 6"
+
+	servicename=$(basename `ls /lib/systemd/system/php*fpm.*`)
+	servicename="${servicename%.*}"
+	systemctl restart $servicename
+}
