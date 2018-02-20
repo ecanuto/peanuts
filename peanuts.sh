@@ -207,10 +207,6 @@ function system_add_user_key() {
 	chown -R $USERNAME:$USERNAME $USERHOME/.ssh
 }
 
-function common_bootstrap() {
-	common_system_settings "$@"
-}
-
 function common_system_settings() {
 	while [ $# -gt 0 ]; do
 		if [[ $1 == "-"* ]]; then
@@ -324,4 +320,28 @@ function phpfpm_common_settings() {
 	servicename=$(basename `ls /lib/systemd/system/php*fpm.*`)
 	servicename="${servicename%.*}"
 	systemctl restart $servicename
+}
+
+### BOOTSTRAP ##################################################################
+
+function common_bootstrap() {
+	common_system_settings "$@"
+}
+
+function lemp_bootstrap() {
+	common_system_settings "$@"
+
+	info "Installing MySQL Server"
+	system_install mysql-server
+	mysql_common_settings
+
+	info "Installing Nginx"
+	system_install nginx-extras
+	nginx_common_settings
+
+	info "PHP-FPM setup"
+	system_install \
+		php7.0-cli php7.0-curl php7.0-fpm php7.0-gd php7.0-intl php7.0-mcrypt \
+		php7.0-mysql php7.0-mbstring php7.0-xml php7.0-zip php7.0-soap
+	phpfpm_common_settings
 }
