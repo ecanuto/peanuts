@@ -245,8 +245,10 @@ function common_system_settings() {
 	fset $SSHD_CONFIG "UseDNS no"
 	systemctl restart ssh
 
-	info "Setting some nice stuff like toilet motd"
-	system_goodstuff
+	if [ ! -z ${g+x} ]; then
+		info "Setting some nice stuff like toilet motd"
+		system_goodstuff
+	fi
 }
 
 ### MySQL ######################################################################
