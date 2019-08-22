@@ -227,8 +227,8 @@ function common_system_settings() {
 
 	info "Installing common packages"
 	system_install \
-		sudo openssh-server ufw nano lsb-release bash-completion \
-		command-not-found rsync htop mc wget curl git vnstat locales
+		openssh-server lsb-release bash-completion command-not-found \
+		sudo nano rsync htop wget curl git locales
 
 	info "Locale settings"
 	system_set_locale   "en_US.UTF-8" "$l"
