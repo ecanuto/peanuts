@@ -44,13 +44,13 @@ function info() {
 function fset() {
 	file=$1
 	argc=$2
-	sepc=$(echo -e $argc | sed -n -e "s/.*\([:=]\).*/\1/p")
-	name=$(echo -e $argc | sed "s/[:= ].*//")
+	sepc=$(echo -e $argc | sed -n -e "s/.*\([[:space:]:=]\).*/\1/p")
+	name=$(echo -e $argc | sed "s/[:=[:space:]].*//")
 	if [ ! -f "$file.orig" ]; then
 	    cp "$file" "$file.orig"
 	fi
-	if grep --quiet "^[#[:space:];]*$name[\b:=]" $file; then
-		sed -i -e "s|^[ \t#;]*$name[ ]*$sepc.\+|$argc|" $file
+	if grep --quiet "^[# ;]*$name[[:space:]:=]" $file; then
+		sed -i -e "s|^[# ;]*$name[ ]*$sepc.\+|$argc|" $file
 	else
 		echo "$argc" >> $file
 	fi
