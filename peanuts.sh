@@ -231,7 +231,7 @@ function common_system_settings() {
 		sudo nano rsync htop wget curl git locales
 
 	info "Locale settings"
-	system_set_locale   "en_US.UTF-8" "$l"
+	system_set_locale "en_US.UTF-8" "$l"
 	if [ ! -z "$t" ]; then
 		system_set_timezone "$t"
 	fi
