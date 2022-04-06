@@ -162,14 +162,20 @@ function system_install() {
 }
 
 function system_goodstuff() {
-	if [ ! $(which toilet) ] || [ ! $(which figlet) ]; then
-		system_install toilet figlet
+	info "Setting message of the day"
+	if [ ! $(which neofetch) ]; then
+		system_install neofetch
 	fi
 
-	info "Setting message of the day"
+	cat > /etc/update-motd.d/99-neofetch <<-EOF
+		#!/bin/bash
+		echo
+		neofetch --ascii_distro linux --color_blocks off --colors 2 7 4 4 4 7
+	EOF
 	system_backup_file /etc/motd
-	toilet -f standard --metal "`hostname -s`"   > /etc/motd
-	toilet -f term --metal "$(lsb_release -sd)" >> /etc/motd
+	true > /etc/motd
+	chmod -x /etc/update-motd.d/*
+	chmod +x /etc/update-motd.d/99-neofetch
 }
 
 function system_add_user() {
