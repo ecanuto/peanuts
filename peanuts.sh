@@ -161,7 +161,7 @@ function system_install() {
 	apt-get install --yes $@
 }
 
-function system_goodstuff() {
+function system_set_nicemotd() {
 	info "Setting message of the day"
 	if [ ! $(which neofetch) ]; then
 		system_install neofetch
