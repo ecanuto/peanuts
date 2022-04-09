@@ -108,10 +108,10 @@ function system_set_hostname() {
 }
 
 function system_set_swapfile() {
-	SWAPFILE=$1
-	SWAPSIZE=$2
+	SWAPSIZE=$1
+	SWAPFILE=$2
 	if [ ! -f "$SWAPFILE" ]; then
-		dd if=/dev/zero of=$SWAPFILE bs=1024 count=${SWAPSIZE}
+		fallocate -l ${SWAPSIZE} ${SWAPFILE}
 		chmod 0600 $SWAPFILE
 		mkswap $SWAPFILE
 		swapon $SWAPFILE
