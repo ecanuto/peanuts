@@ -163,19 +163,21 @@ function system_install() {
 
 function system_set_nicemotd() {
 	info "Setting message of the day"
-	if [ ! $(which neofetch) ]; then
-		system_install neofetch
+
+	motdname="nice-motd"
+	if [ -n "$1" ]; then
+		motdname="nice-motd-$1"
 	fi
 
-	cat > /etc/update-motd.d/99-neofetch <<-EOF
-		#!/bin/bash
-		echo
-		neofetch --ascii_distro linux --color_blocks off --colors 2 7 4 4 4 7
-	EOF
+	motdfurl="https://raw.githubusercontent.com/ecanuto/peanuts/master/${motdname}.sh"
+	motdpath="/etc/update-motd.d"
+	motdfile="${motdpath}/01-${motdname}"
+	curl -so $motdfile $motdfurl
+
 	system_backup_file /etc/motd
-	true > /etc/motd
-	chmod -x /etc/update-motd.d/*
-	chmod +x /etc/update-motd.d/99-neofetch
+	rm /etc/motd
+	chmod -x $motdpath/*
+	chmod +x $motdfile
 }
 
 function system_add_user() {
