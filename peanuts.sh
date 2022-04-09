@@ -161,6 +161,19 @@ function system_install() {
 	apt-get install --yes $@
 }
 
+function system_install_docker() {
+	info "Install Docker"
+	system_install docker.io docker-compose
+	if [ $# -gt 0 ]; then
+		usermod -aG docker $@
+	fi
+}
+
+function system_install_nodejs() {
+	info "Installing NodeJs"
+	system_install nodejs npm yarnpkg
+}
+
 function system_set_nicemotd() {
 	info "Setting message of the day"
 
@@ -213,6 +226,16 @@ function system_add_user_key() {
 	chmod 700 $USERHOME/.ssh
 	chmod 600 $USERHOME/.ssh/authorized_keys
 	chown -R $USERNAME:$USERNAME $USERHOME/.ssh
+}
+
+function common_ssh_settings() {
+	info "SSH settings"
+	cat > /etc/ssh/sshd_config.d/01-local-stuff.conf <<-EOF
+		X11Forwarding no
+		PasswordAuthentication no
+		UseDNS no
+	EOF
+	systemctl restart ssh
 }
 
 function common_system_settings() {
