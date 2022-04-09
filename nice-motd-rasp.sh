@@ -6,7 +6,7 @@
 #  The contents of this file is free and unencumbered software released into the
 #  public domain. For more information, please refer to <http://unlicense.org/>
 
-set -e
+export TERM=xterm-256color
 
 rst=$(tput sgr0)
 grd=$(tput setaf 2 ; tput bold)
