@@ -19,7 +19,14 @@ cpucount=$(cat /proc/cpuinfo | grep processor | wc -l)
 cpuinfo=$(cat /proc/cpuinfo | grep 'model name' | uniq | cut -d: -f2 | xargs)
 meminfo=$(free -h | grep 'Mem:' | tr -s ' ' | cut -d' ' -f2)
 
-echo "${blu}$(figlet `hostname -s`)"
+if [ $(which figlet 2>/dev/null) ]; then
+    distlogo=$(figlet `hostname -s`)
+else
+    distlogo=$(hostname -s)
+fi
+
+
+echo "${blu}${distlogo}"
 echo "${grd}${distinfo}"
 echo "${rst}$(uname -srpo)"
 echo "${rst}${cpucount} ${cpuinfo}, ${meminfo} RAM"
