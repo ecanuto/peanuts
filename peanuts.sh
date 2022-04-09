@@ -175,7 +175,7 @@ function system_set_nicemotd() {
 	curl -so $motdfile $motdfurl
 
 	system_backup_file /etc/motd
-	rm /etc/motd
+	rm -f /etc/motd
 	chmod -x $motdpath/*
 	chmod +x $motdfile
 }
