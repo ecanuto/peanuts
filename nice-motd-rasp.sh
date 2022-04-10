@@ -25,6 +25,6 @@ echo "${red}   : .~.'~'.~. :    ${blu} /_/|_|\_,_/___/ .__/_.__/\__/_/ /_/  \_, 
 echo "${red}  ~ (   ) (   ) ~   ${blu}              /_/                    /___/            "
 echo "${red} ( : '~'.~.'~' : )  "
 echo "${red}  ~ .~ (   ) ~. ~   ${whi} $(hostname) ${rst}- $(uptime -p)"
-echo "${red}   (  : '~' :  )    ${rst} $(uname -srpo)"
+echo "${red}   (  : '~' :  )    ${rst} $(uname -srmo)"
 echo "${red}    '~ .~~~. ~'     ${rst} ${cpucount} ${cpuinfo}, ${meminfo} RAM"
 echo "${red}        '~'         ${rst}"
