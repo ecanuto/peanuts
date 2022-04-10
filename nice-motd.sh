@@ -27,7 +27,6 @@ fi
 
 
 echo "${blu}${distlogo}"
-echo "${grd}${distinfo}"
+echo "${grd}${distinfo} ${rst}- $(uptime -p)"
 echo "${rst}$(uname -srpo)"
 echo "${rst}${cpucount} ${cpuinfo}, ${meminfo} RAM"
-echo "${rst}$(uptime -p)"
