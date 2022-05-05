@@ -22,7 +22,7 @@ meminfo=$(free -h | grep 'Mem:' | tr -s ' ' | cut -d' ' -f2)
 if [ $(which figlet 2>/dev/null) ]; then
     distlogo=$(figlet `hostname -s`)
 else
-    distlogo="# $(hostname -s) #"
+    distlogo="# $(hostname -s)"
 fi
 
 
